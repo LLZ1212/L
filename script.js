@@ -1,44 +1,58 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbwBt2Jd3DkTvfAJvl3TfMCVX_ltvNJY5AKBjHzsdbCWFSgtM3BJAIXaYN-XjSJe6ECP/exec";
+document.addEventListener("DOMContentLoaded", function () {
+  // 抓取商品資料
+  fetch("https://script.google.com/macros/s/AKfycbxUgsxmXIDmBGoiHzggwoEN2iexJ1WIrDevXrAEbg671nmOwCVvuATm9oStDpoa6A8B/exec")
+    .then((response) => response.json())
+    .then((data) => {
+      const productList = document.getElementById("product-list");
+      const productSelect = document.getElementById("product");
 
-// 顯示商品清單
-fetch(API_URL)
-  .then(res => res.json())
-  .then(data => {
-    const productList = document.getElementById("product-list");
-    data.forEach(item => {
-      const div = document.createElement("div");
-      div.className = "product";
-      div.innerHTML = `
-        <img src="${item.圖片}" alt="${item.商品名稱}">
-        <h3>${item.商品名稱}</h3>
-        <p>價格：$${item.價格}</p>
-      `;
-      productList.appendChild(div);
-    });
+      data.forEach(item => {
+        // 顯示商品卡片
+        const productCard = document.createElement("div");
+        productCard.classList.add("product-card");
+
+        productCard.innerHTML = `
+          <img src="${item.商品圖片}" alt="${item.商品名稱}">
+          <h3>${item.商品名稱}</h3>
+          <p>價格：${item.價格} 元</p>
+          <p>庫存：${item.庫存} 件</p>
+          <button onclick="addToCart('${item.商品名稱}')">加入購物車</button>
+        `;
+
+        productList.appendChild(productCard);
+
+        // 填充商品選擇下拉選單
+        const option = document.createElement("option");
+        option.value = item.商品名稱;
+        option.textContent = item.商品名稱;
+        productSelect.appendChild(option);
+      });
+    })
+    .catch((error) => console.error("Error fetching product data:", error));
+});
+
+// 處理訂單送出
+document.getElementById("order-form").addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const formData = new FormData(event.target);
+  const orderData = {};
+
+  formData.forEach((value, key) => {
+    orderData[key] = value;
   });
 
-// 下單表單
-document.getElementById("order-form").addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  const form = e.target;
-  const formData = new FormData(form);
-  const obj = {};
-  formData.forEach((value, key) => obj[key] = value);
-
-  fetch(API_URL, {
+  fetch("https://script.google.com/macros/s/AKfycbxUgsxmXIDmBGoiHzggwoEN2iexJ1WIrDevXrAEbg671nmOwCVvuATm9oStDpoa6A8B/exec", {
     method: "POST",
-    body: JSON.stringify(obj),
     headers: {
       "Content-Type": "application/json",
     },
+    body: JSON.stringify(orderData),
   })
-    .then(res => res.text())
-    .then(msg => {
-      document.getElementById("msg").textContent = "✅ 訂單已送出，感謝你的購買！";
-      form.reset();
+    .then((response) => response.text())
+    .then((data) => {
+      alert("訂單已提交！");
+      event.target.reset();
     })
-    .catch(err => {
-      document.getElementById("msg").textContent = "❌ 發送失敗，請稍後再試";
-    });
+    .catch((error) => console.error("Error submitting order:", error));
 });
