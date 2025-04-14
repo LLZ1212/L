@@ -1,5 +1,5 @@
 // 從 Google Sheet API 取得商品資料
-fetch("https://script.google.com/macros/s/AKfycbyEmDE3CV4-m5hH4iuEIkWTSc1-w7u4td5OCMScmXDLCAaCBZZ_s1y65y-QdSr9WX04/exec")
+fetch("https://script.google.com/macros/s/AKfycbwBt2Jd3DkTvfAJvl3TfMCVX_ltvNJY5AKBjHzsdbCWFSgtM3BJAIXaYN-XjSJe6ECP/exec")
   .then(res => res.json()) // 將回應轉成 JSON 格式
   .then(products => {
     const container = document.querySelector("#product-list");
