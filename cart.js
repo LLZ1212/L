@@ -2,7 +2,7 @@
 let productList = {}; // 存放商品資料（ID 對應詳細資訊）
 
 // 取得商品資料（這步驟也可以和 main.js 共用）
-fetch("https://script.google.com/macros/s/AKfycbyEmDE3CV4-m5hH4iuEIkWTSc1-w7u4td5OCMScmXDLCAaCBZZ_s1y65y-QdSr9WX04/exec")
+fetch("https://script.google.com/macros/s/AKfycbwBt2Jd3DkTvfAJvl3TfMCVX_ltvNJY5AKBjHzsdbCWFSgtM3BJAIXaYN-XjSJe6ECP/exec")
   .then(res => res.json())
   .then(products => {
     // 建立快速查表用的 ID => 商品資料
