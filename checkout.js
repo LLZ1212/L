@@ -24,7 +24,7 @@ document.querySelector("#order-form").addEventListener("submit", function (e) {
   };
 
   // 送出 POST 請求到 Google Apps Script
-  fetch("https://script.google.com/macros/s/AKfycbxUgsxmXIDmBGoiHzggwoEN2iexJ1WIrDevXrAEbg671nmOwCVvuATm9oStDpoa6A8B/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbwBt2Jd3DkTvfAJvl3TfMCVX_ltvNJY5AKBjHzsdbCWFSgtM3BJAIXaYN-XjSJe6ECP/exec", {
     method: "POST",
     body: JSON.stringify(data),
     headers: { "Content-Type": "application/json" }
